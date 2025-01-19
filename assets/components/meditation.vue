@@ -1,5 +1,5 @@
 <template>
-  <section id="meditation" class="bg-bone p-8 text-smoky-black">
+  <section id="meditation" class="bg-bone py-8 text-smoky-black">
     <div class="flex items-center">
       <div class="h-[1px] w-full bg-olive-drab"></div>
       <h2

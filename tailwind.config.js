@@ -14,11 +14,13 @@ export default {
       colors: {
         "smoky-black": "#1112OD",
         "olive-drab": "#565449",
-        bone: "#D8CFBC",
+        "bone": "#D8CFBC",
         "floral-white": "#FFFBF4",
       },
       animation: {
         "pulsate-1": "pulsate1 2s forwards",
+        "fadeIn": 'fadeIn 0.3s ease-out',
+        "fadeOut": 'fadeOut 0.3s ease-in',
       },
       keyframes: {
         pulsate1: {
@@ -33,6 +35,14 @@ export default {
             opacity: 0,
             boxShadow: "none",
           },
+        },
+        fadeIn: {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(10px)" },
         },
       },
       fontFamily: {

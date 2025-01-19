@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="absolute flex w-fit flex-col gap-3 overflow-hidden bg-olive-drab px-4 text-lg font-semibold text-bone transition-all duration-200"
+    class="absolute z-10 flex w-fit flex-col gap-3 overflow-hidden bg-olive-drab px-4 text-lg font-semibold text-bone transition-all duration-200"
     :class="isNavVisible ? 'h-auto p-4' : 'h-0'"
   >
     <NuxtLink
