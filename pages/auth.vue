@@ -1,19 +1,21 @@
 <template>
-  <div class="register-form">
-    <h1>Register</h1>
-    <form @submit.prevent="handleRegister">
-      <label for="username">Username</label>
-      <input id="username" v-model="form.username" type="text" required />
+  <div class="page-background">
+    <div class="register-form">
+      <h1>Регистрация</h1>
+      <form @submit.prevent="handleRegister">
+        <label for="username">Имя пользователя</label>
+        <input id="username" v-model="form.username" type="text" required />
 
-      <label for="email">Email</label>
-      <input id="email" v-model="form.email" type="email" required />
+        <label for="email">Email</label>
+        <input id="email" v-model="form.email" type="email" required />
 
-      <label for="password">Password</label>
-      <input id="password" v-model="form.password" type="password" required />
+        <label for="password">Пароль</label>
+        <input id="password" v-model="form.password" type="password" required />
 
-      <button type="submit">Register</button>
-    </form>
-    <p v-if="message">{{ message }}</p>
+        <button type="submit">Register</button>
+      </form>
+      <p v-if="message">{{ message }}</p>
+    </div>
   </div>
 </template>
 
@@ -60,31 +62,44 @@ const handleRegister = async () => {
 </script>
 
 <style>
+.page-background {
+  background-color: #d8cfbc;
+  min-height: 78vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 .register-form {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  color: #565449;
+  font-size: 24px;
+  background-color: #fffbf4;
+  text-align: center;
 }
 .register-form label {
   display: block;
   margin-bottom: 8px;
+  font-size: 16px;
   font-weight: bold;
+  text-align: left;
 }
 .register-form input {
   width: 100%;
   padding: 8px;
+  font-size: 16px;
+  background-color: #ffffff;
   margin-bottom: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
 }
 .register-form button {
   padding: 10px 20px;
-  background-color: #007bff;
+  font-size: 16px;
+  background-color: #565449;
   color: #fff;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
 }
 .register-form button:hover {
