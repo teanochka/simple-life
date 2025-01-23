@@ -12,7 +12,7 @@
         <label for="password">Пароль</label>
         <input id="password" v-model="form.password" type="password" required />
 
-        <button type="submit">Register</button>
+        <button type="submit">Зарегистрироваться</button>
       </form>
       <p v-if="message">{{ message }}</p>
     </div>
@@ -103,6 +103,6 @@ const handleRegister = async () => {
   cursor: pointer;
 }
 .register-form button:hover {
-  background-color: #0056b3;
+  background-color: #413f37;
 }
 </style>
