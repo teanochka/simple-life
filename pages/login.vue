@@ -1,32 +1,73 @@
 <template>
-    <div>
-      <h1>Вход</h1>
-      <form @submit.prevent="login">
-        <input v-model="email" placeholder="Email" />
-        <input v-model="password" type="password" placeholder="Пароль" />
-        <button @click="login">Войти</button>
-      </form>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  
-  const email = ref('');
-  const password = ref('');
-  
-  const login = async () => {
-    const { data, error } = await useFetch('/api/auth/login', {
-      method: 'POST',
-      body: { email: email.value, password: password.value },
-    });
-  
-    if (data.value.success) {
-      localStorage.setItem('token', data.value.token);
-      alert('Вход успешен');
-    } else {
-      alert(data.value.message || error.value.message);
-    }
-  };
-  </script>
-  
+  <section class="login-container">
+    <h1 class="text-center text-3xl font-bold mb-6">Login</h1>
+    <form @submit.prevent="handleLogin" class="flex flex-col gap-4 max-w-md mx-auto">
+      <input
+        v-model="email"
+        type="email"
+        placeholder="Email"
+        class="p-3 border border-gray-300 rounded"
+        required
+      />
+      <input
+        v-model="password"
+        type="password"
+        placeholder="Password"
+        class="p-3 border border-gray-300 rounded"
+        required
+      />
+      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+        Login
+      </button>
+    </form>
+    <p v-if="error" class="text-red-500 mt-4 text-center">{{ error }}</p>
+  </section>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      error: null,
+    };
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        // Отправляем запрос на сервер для авторизации
+        const response = await $fetch('/api/auth/login', {
+          method: 'POST',
+          body: {
+            email: this.email,
+            password: this.password,
+          },
+          // Включаем возможность отправки и получения кук
+          credentials: 'include',
+        });
+
+        // Если ответ успешный, перенаправляем на /dashboard
+        if (response) {
+          this.$router.push('/dashboard');
+        } else {
+          throw new Error('Invalid server response');
+        }
+      } catch (err) {
+        console.error('Login failed:', err);
+        // Устанавливаем сообщение об ошибке для пользователя
+        this.error = 'Invalid email or password. Please try again.';
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+.login-container {
+  padding: 2rem;
+}
+button:hover {
+  transition: background-color 0.3s ease;
+}
+</style>

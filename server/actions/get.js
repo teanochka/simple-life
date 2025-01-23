@@ -1,17 +1,35 @@
-import User from '~/server/models/User';
+import User from "~/server/models/User";
 
 export default defineEventHandler(async (event) => {
-  const userId = event.context.user.id;
-
   try {
-    const user = await User.findById(userId);
-
-    if (!user) {
-      throw createError({ statusCode: 404, statusMessage: 'User not found' });
+    // Получаем текущего пользователя из токена (или сессии)
+    const userId = event.context.auth?.userId;
+    if (!userId) {
+      throw createError({
+        statusCode: 401,
+        message: "User not authenticated.",
+      });
     }
 
-    return { success: true, actions: user.actions };
+    // Находим пользователя в базе данных
+    const user = await User.findById(userId).populate("items");
+    if (!user) {
+      throw createError({
+        statusCode: 404,
+        message: "User not found.",
+      });
+    }
+
+    // Возвращаем предметы пользователя
+    return {
+      items: user.items,
+    };
   } catch (error) {
-    return { success: false, message: error.message };
+    console.error("Error fetching user items:", error);
+    throw createError({
+      statusCode: error.statusCode || 500,
+      message: error.message || "Internal Server Error",
+    });
   }
 });
+

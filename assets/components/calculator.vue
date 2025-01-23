@@ -62,7 +62,7 @@
             </td>
             <td class="p-3">
               <button
-                @click="deleteItem(item._id, 'dishes')"
+                @click="deleteItem(item._id)"
                 class="text-red-500"
               >
                 Удалить
@@ -93,30 +93,47 @@ export default {
     // Добавить новый предмет в таблицу
     async addItem() {
       if (this.newItem.name && this.newItem.quantity > 0) {
-        const { data } = await useFetch(
-          "/api/user/12345/addItem?category=dishes",
-          {
+        try {
+          // Отправляем новый предмет на сервер
+          const { data } = await useFetch("/api/user/12345/addItem", {
             method: "POST",
             body: this.newItem,
-          },
-        );
-        this.items.push({ ...this.newItem });
-        this.newItem.name = "";
-        this.newItem.quantity = 1;
+          });
+
+          // Если сервер вернул данные, добавляем их в локальный массив
+          if (data && data.item) {
+            this.items.push(data.item); // Добавляем предмет с ответом сервера
+            this.newItem.name = "";
+            this.newItem.quantity = 1;
+          } else {
+            alert("Ошибка при добавлении предмета.");
+          }
+        } catch (error) {
+          console.error("Ошибка при добавлении предмета:", error);
+          alert("Произошла ошибка при добавлении предмета.");
+        }
       } else {
         alert("Заполните все поля корректно!");
       }
     },
     // Удалить элемент из таблицы
-    async deleteItem(itemId, category) {
-      const { data } = await useFetch(
-        `/api/user/12345/deleteItem?itemId=${itemId}&category=${category}`,
-        {
+    async deleteItem(itemId) {
+      try {
+        // Отправляем запрос на удаление предмета с сервера
+        const { data } = await useFetch(`/api/user/12345/deleteItem?itemId=${itemId}`, {
           method: "DELETE",
-        },
-      );
-      // Удалить элемент из локальной таблицы
-      this.items = this.items.filter((item) => item._id !== itemId);
+        });
+
+        // Если предмет успешно удалён, удаляем его из локального массива
+        if (data && data.message === "Item deleted successfully") {
+          this.items = this.items.filter((item) => item._id !== itemId);
+        } else {
+          alert("Ошибка при удалении предмета.");
+        }
+      } catch (error) {
+        console.error("Ошибка при удалении предмета:", error);
+        alert("Произошла ошибка при удалении предмета.");
+      }
     },
   },
 };
