@@ -9,7 +9,9 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
+  dishes: [itemSchema],
+  clothes: [itemSchema],
+  other: [itemSchema],
 });
 
 // Статические методы (работают с коллекцией)
@@ -64,7 +66,7 @@ userSchema.methods.updateItem = async function (category, itemId, updatedItem) {
     throw new Error("Item not found");
   }
 
-  this.items[itemIndex] = updatedItem; // Обновляем данные предмета
+  this[category][itemIndex] = updatedItem;
   await this.save();
 };
 
