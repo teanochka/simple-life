@@ -1,0 +1,132 @@
+[{
+  "_id": {
+    "$oid": "6792a7f46c996babfdbbb34b"
+  },
+  "username": "user1",
+  "email": "user1@example.com",
+  "password": "password123",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6792a7f46c996babfdbbb34d"
+  },
+  "username": "user2",
+  "email": "user2@example.com",
+  "password": "password123",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6792a7f46c996babfdbbb34f"
+  },
+  "username": "user3",
+  "email": "user3@example.com",
+  "password": "password123",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6792cca258386583bbeed046"
+  },
+  "username": "ff",
+  "email": "c@mail.com",
+  "password": "1234",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6792cdb5b0a6fe843e7997ec"
+  },
+  "username": "ggg",
+  "email": "f@gmail.com",
+  "password": "fb5b2f7f3010f9c4f8d8bdb528c8a3d402f0413bf9e1e35a4fa0ff857015ae269638fbe6911bae14b51f555e27748f499ce6b68d593c4ddd059818d42860099a",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6792cecbb0a6fe843e7997f5"
+  },
+  "username": "ddd",
+  "email": "d@mail.com",
+  "password": "3971ebf11a18bce250a282e6ff78739c9a0f7bcb9bc3552fe9cd8191e4a4da573bb38983a47b2a86a63bfc4e41d3361d5d6ae1a1480bf3f27f730cc75fbc84de",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6792f5d2e79e930d16554dcc"
+  },
+  "username": "titka",
+  "email": "teanochka228@m.ru",
+  "password": "e204ef12887b51eda9903db310281bfa7bb4b30a0c35d1db07328f9d8c3ac6ebdbd4cb8aa805f4f16d97434dc7bd2e6ffe2c6b1892808d33278e9d2048dea778",
+  "dishes": [
+    {
+      "name": "тапок",
+      "quantity": 2,
+      "_id": {
+        "$oid": "67939609cb7de38216a89ede"
+      }
+    },
+    {
+      "name": "совесть",
+      "quantity": 1,
+      "_id": {
+        "$oid": "67939657cb7de38216a89eec"
+      }
+    },
+    {
+      "name": "vggggg",
+      "quantity": 1,
+      "_id": {
+        "$oid": "67939688cb7de38216a89efa"
+      }
+    },
+    {
+      "name": "ffff",
+      "quantity": 1,
+      "_id": {
+        "$oid": "679396b9cb7de38216a89f0b"
+      }
+    },
+    {
+      "name": "ffdd",
+      "quantity": 1,
+      "_id": {
+        "$oid": "679397efcb7de38216a89f19"
+      }
+    }
+  ],
+  "clothes": [],
+  "other": [],
+  "__v": 7
+},
+{
+  "_id": {
+    "$oid": "679307ba2d1bfc18e9329c2c"
+  },
+  "username": "popka",
+  "email": "cf@m.f",
+  "password": "c6001d5b2ac3df314204a8f9d7a00e1503c9aba0fd4538645de4bf4cc7e2555cfe9ff9d0236bf327ed3e907849a98df4d330c4bea551017d465b4c1d9b80bcb0",
+  "dishes": [],
+  "clothes": [],
+  "other": [],
+  "__v": 0
+}]
