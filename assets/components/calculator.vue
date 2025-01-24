@@ -13,7 +13,7 @@
       <h3 class="w-full text-center text-2xl text-olive-drab">мебель</h3>
 
       <!-- Форма для добавления новой строки -->
-      <div class="mx-[20%] mb-4 flex gap-2">
+      <div class="mx-2 mb-4 flex gap-2 lg:mx-[20%]">
         <input
           v-model="newItem.name"
           type="text"
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Таблица -->
-      <table class="mx-[20%]">
+      <table class="mx-2 lg:mx-[20%]">
         <thead>
           <tr class="bg-olive-drab text-left text-bone">
             <th class="p-3">Название</th>
@@ -63,6 +63,7 @@
             <td class="p-3">
               <button
                 @click="deleteItem(item._id)"
+                @click="deleteItem(item._id)"
                 class="text-red-500"
               >
                 Удалить
@@ -76,6 +77,9 @@
 </template>
 
 <script>
+definePageMeta({
+  auth: true,
+});
 export default {
   data() {
     return {
@@ -84,25 +88,52 @@ export default {
         quantity: 1,
       },
       items: [
-        { _id: "1", name: "Шкаф", quantity: 1 },
-        { _id: "2", name: "Кресло", quantity: 2 },
+        { name: "Шкаф", quantity: 1, _id: "1" },
+        { name: "Кресло", quantity: 2, _id: "2" },
       ],
+      userId: null,
     };
   },
+  async mounted() {
+    const { data: session } = await $fetch("/api/auth/session", {
+      headers: useRequestHeaders(["cookie"]),
+    });
+    this.userId = this.$auth.session.value?.id;
+    console.log(this.userId, this.$auth.session.value?.email);
+    const itemsPost = await $fetch("/api/items", {
+      method: "POST",
+      body: {
+        userId: this.userId,
+        category: "dishes",
+      },
+    });
+    console.log(itemsPost);
+    if (Array.isArray(itemsPost)) {
+      this.items = itemsPost;
+    } else {
+      console.error("Неверный формат данных из API.");
+    }
+  },
   methods: {
-    // Добавить новый предмет в таблицу
     async addItem() {
       if (this.newItem.name && this.newItem.quantity > 0) {
         try {
-          // Отправляем новый предмет на сервер
-          const { data } = await useFetch("/api/user/12345/addItem", {
+          if (!this.userId) {
+            alert("Пользователь не авторизован.");
+            return;
+          }
+          const { message, item } = await $fetch("/api/addItem", {
             method: "POST",
-            body: this.newItem,
+            body: {
+              userId: this.userId,
+              item: this.newItem,
+              category: "dishes",
+            },
           });
 
-          // Если сервер вернул данные, добавляем их в локальный массив
-          if (data && data.item) {
-            this.items.push(data.item); // Добавляем предмет с ответом сервера
+          console.log(message);
+          if (item) {
+            this.items.push(item);
             this.newItem.name = "";
             this.newItem.quantity = 1;
           } else {
@@ -116,20 +147,23 @@ export default {
         alert("Заполните все поля корректно!");
       }
     },
-    // Удалить элемент из таблицы
     async deleteItem(itemId) {
       try {
-        // Отправляем запрос на удаление предмета с сервера
-        const { data } = await useFetch(`/api/user/12345/deleteItem?itemId=${itemId}`, {
+        if (!this.userId) {
+          alert("Пользователь не авторизован.");
+          return;
+        }
+        const { message } = await $fetch("/api/deleteItem", {
           method: "DELETE",
+          body: {
+            userId: this.userId,
+            itemId: itemId,
+            category: "dishes",
+          },
         });
 
-        // Если предмет успешно удалён, удаляем его из локального массива
-        if (data && data.message === "Item deleted successfully") {
-          this.items = this.items.filter((item) => item._id !== itemId);
-        } else {
-          alert("Ошибка при удалении предмета.");
-        }
+        console.log(message);
+        this.items = this.items.filter((item) => item._id !== itemId);
       } catch (error) {
         console.error("Ошибка при удалении предмета:", error);
         alert("Произошла ошибка при удалении предмета.");

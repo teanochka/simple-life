@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.21.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -23,7 +24,9 @@
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@nuxt/examples-ui": "latest",
     "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.10"
+    "prettier-plugin-tailwindcss": "^0.6.10",
+    "uncrypto": "^0.1.3"
   }
 }

@@ -12,15 +12,54 @@ const userSchema = new mongoose.Schema({
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
 });
 
-// Метод для добавления предмета
-userSchema.methods.addItem = async function (item) {
-  this.items.push(item); // Добавляем новый предмет в массив
+// Статические методы (работают с коллекцией)
+userSchema.statics.findUserByEmail = async function (email) {
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
+};
+
+userSchema.statics.createUser = async function (userData) {
+  const existingUser = await this.findOne({ email: userData.email });
+  if (existingUser) {
+    throw new Error("Email already exists!");
+  }
+
+  const newUser = new this(userData);
+  return await newUser.save();
+};
+
+userSchema.statics.updateUserByEmail = async function (email, updates) {
+  const updatedUser = await this.findOneAndUpdate({ email }, updates, {
+    new: true,
+    runValidators: true,
+  });
+  if (!updatedUser) {
+    throw new Error("User not found");
+  }
+  return updatedUser;
+};
+
+// Методы экземпляра (работают с конкретным пользователем)
+userSchema.methods.addItem = async function (category, item) {
+  if (!["dishes", "clothes", "other"].includes(category)) {
+    throw new Error("Invalid category");
+  }
+
+  this[category].push(item);
   await this.save();
 };
 
-// Метод для обновления предмета
-userSchema.methods.updateItem = async function (itemId, updatedItem) {
-  const itemIndex = this.items.findIndex((item) => item._id.toString() === itemId);
+userSchema.methods.updateItem = async function (category, itemId, updatedItem) {
+  if (!["dishes", "clothes", "other"].includes(category)) {
+    throw new Error("Invalid category");
+  }
+
+  const itemIndex = this[category].findIndex(
+    (item) => item._id.toString() === itemId
+  );
   if (itemIndex === -1) {
     throw new Error("Item not found");
   }
@@ -29,9 +68,14 @@ userSchema.methods.updateItem = async function (itemId, updatedItem) {
   await this.save();
 };
 
-// Метод для удаления предмета
-userSchema.methods.deleteItem = async function (itemId) {
-  this.items = this.items.filter((item) => item._id.toString() !== itemId);
+userSchema.methods.deleteItem = async function (category, itemId) {
+  if (!["dishes", "clothes", "other"].includes(category)) {
+    throw new Error("Invalid category");
+  }
+
+  this[category] = this[category].filter(
+    (item) => item._id.toString() !== itemId
+  );
   await this.save();
 };
 
