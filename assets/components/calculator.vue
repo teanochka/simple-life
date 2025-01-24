@@ -11,8 +11,6 @@
     </div>
     <div class="flex flex-col justify-center">
       <h3 class="w-full text-center text-2xl text-olive-drab">мебель</h3>
-
-      <!-- Форма для добавления новой строки -->
       <div class="mx-2 mb-4 flex gap-2 lg:mx-[20%]">
         <input
           v-model="newItem.name"
@@ -30,8 +28,6 @@
           Добавить
         </button>
       </div>
-
-      <!-- Таблица -->
       <table class="mx-2 lg:mx-[20%]">
         <thead>
           <tr class="bg-olive-drab text-left text-bone">
@@ -61,11 +57,7 @@
               />
             </td>
             <td class="p-3">
-              <button
-                @click="deleteItem(item._id)"
-                @click="deleteItem(item._id)"
-                class="text-red-500"
-              >
+              <button @click="deleteItem(item._id)" class="text-red-500">
                 Удалить
               </button>
             </td>
